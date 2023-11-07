@@ -1,0 +1,1 @@
+export const AIRCODE_BASE_API_URL = 'https://weg8bz43zy.us.aircode.run/';

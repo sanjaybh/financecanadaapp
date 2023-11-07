@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Sanjay Bhan",
+      "age": 30,
+      "email": "sanjay@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "Tony",
+      "age": 20,
+      "email": "tony@gmail.com"
+    },
+    {
+      "id": 3,
+      "name": "Gary",
+      "age": 50,
+      "email": "gary@gmail.com"
+    },
+    {
+      "name": "New User",
+      "age": 30,
+      "email": "newuser@gmail.com",
+      "id": 4
+    }
+  ]
+}
