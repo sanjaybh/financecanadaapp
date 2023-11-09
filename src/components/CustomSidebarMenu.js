@@ -13,18 +13,32 @@ import {
 
 //import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logout } from '../helpers';
+
+const getData = async (key) => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(key);
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch (e) {
+    // error reading value
+  }
+};
 
 const CustomSidebarMenu = (props) => {
+  const name = getData('name'); 
+  const email = getData('email'); 
+  console.warn(name, email);
+
   return (
     <View style={stylesSidebar.sideMenuContainer}>
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
           <Text style={{fontSize: 25, color: '#307ecc'}}>
-            {'About React'.charAt(0)}
+            {'Mrbhans'.charAt(0)}
           </Text>
         </View>
         <Text style={stylesSidebar.profileHeaderText}>
-          AboutReact
+          Test
         </Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
@@ -53,6 +67,7 @@ const CustomSidebarMenu = (props) => {
                   text: 'Confirm',
                   onPress: () => {
                     AsyncStorage.clear();
+                    //logout();
                     props.navigation.replace('Auth');
                   },
                 },

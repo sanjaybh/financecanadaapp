@@ -62,14 +62,14 @@ const App = () => {
           options={{headerShown: false}}
         />      
         {/* Navigation Drawer as a landing page */}         
-        {/*
+        
         <Stack.Screen
           name="DrawerNavigationRoutes" 
           component={DrawerNavigatorRoutes} 
           // Hiding header for Navigation Drawer
           options={{headerShown: false}}
         />   
-         */}
+         
       </Stack.Navigator>
     </NavigationContainer>
   );

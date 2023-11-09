@@ -1,3 +1,3 @@
-function test(){
-    console.log("testing")
+export function logout(){
+    console.log("logout")
 }

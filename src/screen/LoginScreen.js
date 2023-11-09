@@ -25,15 +25,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../components/Loader';
 
 const LoginScreen = ({navigation}) => {
-  const [userEmail, setUserEmail] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userEmail, setUserEmail] = useState('sanjay@gmail.com');
+  const [userPassword, setUserPassword] = useState('sanjay');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
 
   const passwordInputRef = createRef();
 
-  //console.warn("URL - " + AIRCODE_BASE_API_URL)
-// ${AIRCODE_BASE_API_URL}/auth/login;
+  const storeData = async (key, value) => {
+    try {      
+      //const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem(key, value);
+
+      //console.log("jsonValue 1 - "+jsonValue)
+    } catch (e) {
+      console.log(e)
+    }
+  };
 
   const handleSubmitPress = () => {
     setErrortext('');
@@ -47,33 +55,48 @@ const LoginScreen = ({navigation}) => {
     }
     setLoading(true);
     let dataToSend = {email: userEmail, password: userPassword};
-    let formBody = [];
-    for (let key in dataToSend) {
-      let encodedKey = encodeURIComponent(key);
-      let encodedValue = encodeURIComponent(dataToSend[key]);
-      formBody.push(encodedKey + '=' + encodedValue);
-    }
-    formBody = formBody.join('&');
+    // let formBody = [];
+    // for (let key in dataToSend) {
+    //   let encodedKey = encodeURIComponent(key);
+    //   let encodedValue = encodeURIComponent(dataToSend[key]);
+    //   formBody.push(encodedKey + '=' + encodedValue);
+    // }
+    // formBody = formBody.join('&');
+
+    //console.log("LOGGING - "+JSON.stringify(dataToSend))
 
     fetch(`${AIRCODE_BASE_API_URL}/auth/login`, {
       method: 'POST',
-      body: formBody,
+      body: JSON.stringify(dataToSend),
       headers: {
         //Header Defination
-        'Content-Type':
-        'application/x-www-form-urlencoded;charset=UTF-8',  
+        //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 
+        'Content-Type': 'application/json',   
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
         //Hide Loader
         setLoading(false);
-        console.log(responseJson);
+        //console.log("======>"+JSON.stringify(responseJson));
         // If server response message same as Data Matched
-        if (responseJson.status === 'success') {
-          AsyncStorage.setItem('user_id', responseJson.data.email);
-          console.log(responseJson.data.email);
-          //navigation.replace('DrawerNavigationRoutes');
+        if (responseJson.success === true) {
+          //AsyncStorage.setItem('user_id', responseJson.data.email);
+          //AsyncStorage.setItem('user_data', JSON.stringify(responseJson));
+
+          //Storing data in async storage
+          const name = responseJson.data.name;
+          const email = responseJson.data.email;
+          //console.log("Name / Email - ", name, email)
+          storeData("name", name);
+          storeData("email", email);
+
+          //storeData("user_name", responseJson.data.name);
+
+          //AsyncStorage.setItem('accessToken', responseJson.data.accessToken);
+          //console.log(responseJson.data);
+          //console.log("Success --->")
+          navigation.replace('DrawerNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);
           console.log('Please check your email id or password');
@@ -115,6 +138,7 @@ const LoginScreen = ({navigation}) => {
                 onChangeText={(UserEmail) =>
                   setUserEmail(UserEmail)
                 }
+                value={userEmail}
                 placeholder="Enter Email" //dummy@abc.com
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
@@ -131,6 +155,7 @@ const LoginScreen = ({navigation}) => {
             <View style={styles.SectionStyle}>
               <TextInput
                 style={styles.inputStyle}
+                value={userPassword}
                 onChangeText={(UserPassword) =>
                   setUserPassword(UserPassword)
                 }

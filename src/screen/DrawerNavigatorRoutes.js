@@ -3,6 +3,17 @@
 
 // Import React
 import React from 'react';
+import {
+  StyleSheet,
+  TextInput,
+  View,
+  Text,
+  ScrollView,
+  Image,
+  Keyboard,
+  TouchableOpacity,
+  KeyboardAvoidingView
+} from 'react-native';
 
 // Import Navigators from React Navigation
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -20,7 +31,7 @@ const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 
-const homeScreenStack = ({navigation}) => {
+const HomeScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen
@@ -44,7 +55,7 @@ const homeScreenStack = ({navigation}) => {
   );
 };
 
-const settingScreenStack = ({navigation}) => {
+const SettingScreenStack = ({navigation}) => {
   return (
     <Stack.Navigator
       initialRouteName="SettingsScreen"
@@ -72,30 +83,32 @@ const settingScreenStack = ({navigation}) => {
 };
 
 const DrawerNavigatorRoutes = (props) => {
+  //screenOptions, drawerContentOptions
   return (
-    <Text>Testing</Text>
-    // <Drawer.Navigator
-    //   drawerContentOptions={{
-    //     activeTintColor: '#cee1f2',
-    //     color: '#cee1f2',
-    //     itemStyle: {marginVertical: 5, color: 'white'},
-    //     labelStyle: {
-    //       color: '#d8d8d8',
-    //     },
-    //   }}
-    //   screenOptions={{headerShown: false}}
-    //   drawerContent={CustomSidebarMenu}>
-    //   <Drawer.Screen
-    //     name="homeScreenStack"
-    //     options={{drawerLabel: 'Home Screen'}}
-    //     component={homeScreenStack}
-    //   />
-    //   <Drawer.Screen
-    //     name="settingScreenStack"
-    //     options={{drawerLabel: 'Setting Screen'}}
-    //     component={settingScreenStack}
-    //   />
-    // </Drawer.Navigator>
+    <Drawer.Navigator
+      screenOptions={{
+        activeTintColor: '#e91e63',
+        color: '#f2f0ce',
+        itemStyle: {marginVertical: 5, color: 'white'},
+        labelStyle: {
+          color: '#d8d8d8',
+        },
+        backgroundColor: '#c6cbef',
+        width: 240
+      }}
+      screenOptions={{headerShown: false}}
+      drawerContent={CustomSidebarMenu}>
+      <Drawer.Screen
+        name="HomeScreenStack"
+        options={{drawerLabel: 'Home Screen'}}
+        component={HomeScreenStack}
+      />
+      <Drawer.Screen
+        name="SettingScreenStack"
+        options={{drawerLabel: 'Setting Screen'}}
+        component={SettingScreenStack}
+      />
+    </Drawer.Navigator>
   );
 };
 
