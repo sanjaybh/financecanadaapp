@@ -83,18 +83,15 @@ const SettingScreenStack = ({navigation}) => {
 };
 
 const DrawerNavigatorRoutes = (props) => {
-  //screenOptions, drawerContentOptions
   return (
     <Drawer.Navigator
-      screenOptions={{
-        activeTintColor: '#e91e63',
-        color: '#f2f0ce',
+      drawerContentOptions={{
+        activeTintColor: '#cee1f2',
+        color: '#cee1f2',
         itemStyle: {marginVertical: 5, color: 'white'},
         labelStyle: {
           color: '#d8d8d8',
         },
-        backgroundColor: '#c6cbef',
-        width: 240
       }}
       screenOptions={{headerShown: false}}
       drawerContent={CustomSidebarMenu}>

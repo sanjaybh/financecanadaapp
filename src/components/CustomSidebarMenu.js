@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React from 'react';
+import React, { useEffect } from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
 
 import {
@@ -13,7 +13,14 @@ import {
 
 //import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout } from '../helpers';
+import { logout, retrieve, store } from '../helpers';
+
+// const mst = store("Test", "Testing")
+// console.log("mst 1 - "+mst);
+
+// const dummy = retrieve("Test");
+// console.log("mst 2 - "+dummy);
+
 
 const getData = async (key) => {
   try {
@@ -25,9 +32,18 @@ const getData = async (key) => {
 };
 
 const CustomSidebarMenu = (props) => {
-  const name = getData('name'); 
-  const email = getData('email'); 
-  console.warn(name, email);
+  //const name = AsyncStorage.getItem("name"); //getData('name'); 
+  //const email = getData('email'); 
+  //console.warn("name - "+JSON.stringify(name) + " - email - "+JSON.stringify(email));
+  //console.warn("email - "+email);
+
+  useEffect(() => {
+    const retrievedata = async() => {
+      //let items = await AsyncStorage.getitem("name");
+      //console.log("items - "+items);
+    }
+    retrievedata()
+  }, []);
 
   return (
     <View style={stylesSidebar.sideMenuContainer}>
