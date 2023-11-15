@@ -2,7 +2,7 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {View, Text, Alert, StyleSheet} from 'react-native';
 
 import {
@@ -15,34 +15,31 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { logout, retrieve, store } from '../helpers';
 
-// const mst = store("Test", "Testing")
-// console.log("mst 1 - "+mst);
-
-// const dummy = retrieve("Test");
-// console.log("mst 2 - "+dummy);
-
-
-const getData = async (key) => {
-  try {
-    const jsonValue = await AsyncStorage.getItem(key);
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
-  } catch (e) {
-    // error reading value
+const CustomSidebarMenu = (props) => {  
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  
+  const printAsyncStorage = () => { 
+    AsyncStorage.getAllKeys((err, keys) => { 
+      AsyncStorage.multiGet(keys, (error, stores) => { 
+        let asyncStorage = {}
+        stores.map((result, i, store) => {
+          asyncStorage[store[i][0]] = store[i][1]
+        });
+        //console.log("STORE - "+JSON.stringify(asyncStorage))
+        setName(asyncStorage.name)
+        setEmail(asyncStorage.email)
+        //console.log("EMAIL - "+asyncStorage.email);
+        //console.log("NAME - "+asyncStorage.name)
+      });
+    });
+  };
+  const handleSingleWord = (name) =>{
+    let _name = (name ? name : "BLANK") 
+    return _name.charAt(0);
   }
-};
-
-const CustomSidebarMenu = (props) => {
-  //const name = AsyncStorage.getItem("name"); //getData('name'); 
-  //const email = getData('email'); 
-  //console.warn("name - "+JSON.stringify(name) + " - email - "+JSON.stringify(email));
-  //console.warn("email - "+email);
-
   useEffect(() => {
-    const retrievedata = async() => {
-      //let items = await AsyncStorage.getitem("name");
-      //console.log("items - "+items);
-    }
-    retrievedata()
+    printAsyncStorage();
   }, []);
 
   return (
@@ -50,11 +47,11 @@ const CustomSidebarMenu = (props) => {
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
           <Text style={{fontSize: 25, color: '#307ecc'}}>
-            {'Mrbhans'.charAt(0)}
+            {handleSingleWord(name)}
           </Text>
         </View>
         <Text style={stylesSidebar.profileHeaderText}>
-          Test
+          {name}
         </Text>
       </View>
       <View style={stylesSidebar.profileHeaderLine} />
@@ -63,7 +60,7 @@ const CustomSidebarMenu = (props) => {
         <DrawerItemList {...props} />
         <DrawerItem
           label={({color}) => 
-            <Text style={{color: '#d8d8d8'}}>
+            <Text style={{color: '#d8d8d8', fontWeight:'bold'}}>
               Logout
             </Text>
           }

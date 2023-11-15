@@ -36,7 +36,7 @@ const LoginScreen = ({navigation}) => {
     try {      
       //const jsonValue = JSON.stringify(value);
       await AsyncStorage.setItem(key, value);
-
+      //console.log("setting data 1")
       //console.log("jsonValue 1 - "+jsonValue)
     } catch (e) {
       console.log(e)
