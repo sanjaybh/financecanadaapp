@@ -116,7 +116,8 @@ const ContactScreenStack = ({navigation}) => {
 const DrawerNavigatorRoutes = (props) => {
   return (
     <Drawer.Navigator
-      screenOptions_={{
+      screenOptions={{
+        headerShown: false,
         activeTintColor: '#2acb18',
         color: '#cee1f2',
         itemStyle: {marginVertical: 5, color: '#898a48'},
@@ -130,7 +131,6 @@ const DrawerNavigatorRoutes = (props) => {
           width: 240,
         },
       }}
-      screenOptions={{headerShown: false}}
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="HomeScreenStack"

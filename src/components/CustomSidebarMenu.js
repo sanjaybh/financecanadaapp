@@ -13,29 +13,37 @@ import {
 
 //import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout, retrieve, store, printAsyncStorage } from '../helpers';
+
+import {asyncStoreGetData} from '../helpers/index';
 
 const CustomSidebarMenu = (props) => {  
   const [name, setName] = useState();
   const [email, setEmail] = useState();
+  const [accessToken, setAccessToken] = useState();
   const [singleWord, setSingleWord] = useState();
   
   const handleSingleWord = (name) =>{
     let _name = (name ? name : "BLANK") 
     setSingleWord(_name.charAt(0));
   }
+
+  const handleName = (value) => {
+    const _value = JSON.parse(value);
+    setName(_value);
+    handleSingleWord(_value);
+  }
+  // const handleEmail = (value) => {
+  //   const _value = JSON.parse(value);
+  //   setEmail(_value);
+  // }
+  // const handleToken = (value) => {
+  //   const _value = JSON.parse(value);
+  //   setAccessToken(_value);
+  // }
   useEffect(() => {
-    AsyncStorage.getAllKeys((err, keys) => { 
-      AsyncStorage.multiGet(keys, (error, stores) => {  
-        let asyncStorage = {}
-        stores.map((result, i, store) => {
-          asyncStorage[store[i][0]] = store[i][1]
-        });
-        setName(asyncStorage.name);
-        setEmail(asyncStorage.email);
-        handleSingleWord(asyncStorage.name)
-      });
-    });
+    asyncStoreGetData('name', handleName);
+    //asyncStoreGetData('email', handleEmail);
+    //asyncStoreGetData('accessToken', handleToken);
   }, []);
 
   return (

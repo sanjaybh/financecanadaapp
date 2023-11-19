@@ -17,9 +17,11 @@ import {
 
 import {AIRCODE_BASE_API_URL} from '../../Constants/ExternalLinks'
 
-//import AsyncStorage from '@react-native-community/async-storage';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+////import AsyncStorage from '@react-native-community/async-storage';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../components/Loader';
+
+import {asyncStoreSetData} from '../helpers/index';
 
 const LoginScreen = ({navigation}) => {
   const [userEmail, setUserEmail] = useState('sanjay@gmail.com');
@@ -28,15 +30,7 @@ const LoginScreen = ({navigation}) => {
   const [errortext, setErrortext] = useState('');
 
   const passwordInputRef = createRef();
-
-  const storeData = async (key, value) => {
-    try {
-      await AsyncStorage.setItem(key, value);
-    } catch (e) {
-      console.log(e)
-    }
-  };
-
+  
   const handleSubmitPress = () => {
     setErrortext('');
     if (!userEmail) {
@@ -69,9 +63,10 @@ const LoginScreen = ({navigation}) => {
           const email = responseJson.data.email;
           const accessToken = responseJson.data.accessToken;
           //console.log("Name / Email - ", name, email)
-          storeData("name", name);
-          storeData("email", email);
-          storeData("accessToken", accessToken);
+          asyncStoreSetData("name", name);
+          asyncStoreSetData("email", email);
+          asyncStoreSetData("accessToken", accessToken);
+          //Redirect to Drawer Navigation
           navigation.replace('DrawerNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);

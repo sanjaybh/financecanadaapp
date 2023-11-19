@@ -2,11 +2,22 @@
 // https://aboutreact.com/react-native-login-and-signup/
 
 // Import React and Component
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
 import CustFooter from './CustFooter';
 
+import {asyncStoreGetData} from '../helpers/index';
+
 const HomeScreen = () => {
+  const [accessToken, setAccessToken] = useState();
+
+  const handleToken = (value) => {
+    const _value = JSON.parse(value);
+    setAccessToken(_value);
+  }
+
+  asyncStoreGetData('accessToken', handleToken);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{flex: 1, padding: 16}}>
@@ -25,6 +36,8 @@ const HomeScreen = () => {
             Example of Splash, Login and Sign Up in React Native
             {'\n\n'}
             This is the Home Screen
+            {'\n\n'}
+            {accessToken}
           </Text>
         </View>
         <CustFooter type="Home Screen" />
