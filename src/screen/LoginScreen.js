@@ -19,9 +19,6 @@ import {AIRCODE_BASE_API_URL} from '../../Constants/ExternalLinks'
 
 //import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-//import {AIRCODE_BASE_API_URL} from 'react-native-dotenv';
-
 import Loader from '../components/Loader';
 
 const LoginScreen = ({navigation}) => {
@@ -33,11 +30,8 @@ const LoginScreen = ({navigation}) => {
   const passwordInputRef = createRef();
 
   const storeData = async (key, value) => {
-    try {      
-      //const jsonValue = JSON.stringify(value);
+    try {
       await AsyncStorage.setItem(key, value);
-      //console.log("setting data 1")
-      //console.log("jsonValue 1 - "+jsonValue)
     } catch (e) {
       console.log(e)
     }
@@ -55,21 +49,11 @@ const LoginScreen = ({navigation}) => {
     }
     setLoading(true);
     let dataToSend = {email: userEmail, password: userPassword};
-    // let formBody = [];
-    // for (let key in dataToSend) {
-    //   let encodedKey = encodeURIComponent(key);
-    //   let encodedValue = encodeURIComponent(dataToSend[key]);
-    //   formBody.push(encodedKey + '=' + encodedValue);
-    // }
-    // formBody = formBody.join('&');
-
-    //console.log("LOGGING - "+JSON.stringify(dataToSend))
 
     fetch(`${AIRCODE_BASE_API_URL}/auth/login`, {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {
-        //Header Defination
         //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8', 
         'Content-Type': 'application/json',   
       },
@@ -78,24 +62,16 @@ const LoginScreen = ({navigation}) => {
       .then((responseJson) => {
         //Hide Loader
         setLoading(false);
-        //console.log("======>"+JSON.stringify(responseJson));
         // If server response message same as Data Matched
         if (responseJson.success === true) {
-          //AsyncStorage.setItem('user_id', responseJson.data.email);
-          //AsyncStorage.setItem('user_data', JSON.stringify(responseJson));
-
           //Storing data in async storage
           const name = responseJson.data.name;
           const email = responseJson.data.email;
+          const accessToken = responseJson.data.accessToken;
           //console.log("Name / Email - ", name, email)
           storeData("name", name);
           storeData("email", email);
-
-          //storeData("user_name", responseJson.data.name);
-
-          //AsyncStorage.setItem('accessToken', responseJson.data.accessToken);
-          //console.log(responseJson.data);
-          //console.log("Success --->")
+          storeData("accessToken", accessToken);
           navigation.replace('DrawerNavigationRoutes');
         } else {
           setErrortext(responseJson.msg);
@@ -139,7 +115,7 @@ const LoginScreen = ({navigation}) => {
                   setUserEmail(UserEmail)
                 }
                 value={userEmail}
-                placeholder="Enter Email" //dummy@abc.com
+                placeholder="Enter Email"
                 placeholderTextColor="#8b9cb5"
                 autoCapitalize="none"
                 keyboardType="email-address"

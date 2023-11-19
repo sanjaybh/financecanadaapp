@@ -24,6 +24,8 @@ import {createNativeStackNavigator, createStackNavigator} from '@react-navigatio
 // Import Screens
 import HomeScreen from '../drawerScreens/HomeScreen';
 import SettingsScreen from '../drawerScreens/SettingsScreen';
+import ContactScreen from '../drawerScreens/ContactScreen';
+
 import CustomSidebarMenu from '../components/CustomSidebarMenu';
 import NavigationDrawerHeader from '../components/NavigationDrawerHeader';
 
@@ -82,30 +84,68 @@ const SettingScreenStack = ({navigation}) => {
   );
 };
 
+const ContactScreenStack = ({navigation}) => {
+  return (
+    <Stack.Navigator
+      initialRouteName="ContactScreen"
+      screenOptions={{
+        headerLeft: () => (
+          <NavigationDrawerHeader navigationProps={navigation} />
+        ),
+        headerStyle: {
+          backgroundColor: '#307ecc', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          fontWeight: 'bold', //Set Header text style
+        },
+      }}>
+      <Stack.Screen
+        name="ContactScreen"
+        component={ContactScreen}
+        options={{
+          title: 'Contact Us', //Set Header Title
+        }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 //drawerContentOptions / screenOptions
 
 const DrawerNavigatorRoutes = (props) => {
   return (
     <Drawer.Navigator
-      screenOptions={{
-        activeTintColor: '#cee1f2',
+      screenOptions_={{
+        activeTintColor: '#2acb18',
         color: '#cee1f2',
-        itemStyle: {marginVertical: 5, color: 'white'},
+        itemStyle: {marginVertical: 5, color: '#898a48'},
         labelStyle: {
-          color: '#d8d8d8',
+          color: '#d94c4c',
+        },
+        overlayColor: 'transparent',
+        drawerStatusBarAnimation:'fade',
+        drawerStyle: {
+          backgroundColor: '#ebef0c',
+          width: 240,
         },
       }}
       screenOptions={{headerShown: false}}
       drawerContent={CustomSidebarMenu}>
       <Drawer.Screen
         name="HomeScreenStack"
-        options={{drawerLabel: 'Home Screen'}}
+        options={{drawerLabel: 'Home'}}
         component={HomeScreenStack}
       />
       <Drawer.Screen
         name="SettingScreenStack"
-        options={{drawerLabel: 'Setting Screen'}}
+        options={{drawerLabel: 'Setting'}}
         component={SettingScreenStack}
+      />
+      <Drawer.Screen
+        name="ContactScreenStack"
+        options={{drawerLabel: 'Contact Us'}}
+        component={ContactScreenStack}
       />
     </Drawer.Navigator>
   );

@@ -17,13 +17,11 @@ import {
 import {AIRCODE_BASE_API_URL} from '../../Constants/ExternalLinks'
 import Loader from '../components/Loader';
 
-const RegisterScreen = (props) => {
+const ContactScreen = (props) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPhone, setUserPhone] = useState('');
-  const [userAddressCity, setUserAddressCity] = useState('');
-  const [userAddressCountry, setUserAddressCountry] = useState('');
-  const [userPassword, setUserPassword] = useState('');
+  const [userComments, setUserComments] = useState('');
   const [loading, setLoading] = useState(false);
   const [errortext, setErrortext] = useState('');
   const [
@@ -46,20 +44,12 @@ const RegisterScreen = (props) => {
       alert('Please fill Email');
       return;
     }
-    if (!userPassword) {
-      alert('Please fill Password');
-      return;
-    }
     if (!userPhone) {
       alert('Please fill Phone');
       return;
     }
-    if (!userAddressCity) {
-      alert('Please fill City');
-      return;
-    }
-    if (!userAddressCountry) {
-      alert('Please fill Country');
+    if (!userComments) {
+      alert('Enter comments...');
       return;
     }
     
@@ -68,12 +58,8 @@ const RegisterScreen = (props) => {
     var dataToSend = {
       name: userName,
       email: userEmail,
-      phone: userPhone,
-      address: {
-        city: userAddressCity,
-        country: userAddressCountry
-      },      
-      password: userPassword,
+      tel: userPhone,    
+      comments: userComments,
     };
     // var formBody = [];
     // for (var key in dataToSend) {
@@ -83,7 +69,7 @@ const RegisterScreen = (props) => {
     // }
     // formBody = formBody.join('&');
 
-    fetch(`${AIRCODE_BASE_API_URL}/MasterEntry/addUser`, {
+    fetch(`${AIRCODE_BASE_API_URL}/contact/contact`, {
       method: 'POST',
       body: JSON.stringify(dataToSend),
       headers: {
@@ -101,7 +87,7 @@ const RegisterScreen = (props) => {
         setIsRegistraionSuccess(true);
         //console.warn(responseJson.message);
         console.log(
-          'Registration Successful. Please Login to proceed'
+          'Message sent successfully. Our team will get back to you.'
         );
       } else {
         console.warn(responseJson.message);
@@ -131,7 +117,7 @@ const RegisterScreen = (props) => {
           }}
         />
         <Text style={styles.successTextStyle}>
-          Registration Successful
+          Message Sent Successfully
         </Text>
         <TouchableOpacity
           style={styles.buttonStyle}
@@ -198,25 +184,6 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserPassword) =>
-                setUserPassword(UserPassword)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="Enter Password"
-              placeholderTextColor="#8b9cb5"
-              ref={passwordInputRef}
-              returnKeyType="next"
-              secureTextEntry={true}
-              onSubmitEditing={() =>
-                ageInputRef.current &&
-                ageInputRef.current.focus()
-              }
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
               onChangeText={(UserPhone) => setUserPhone(UserPhone)}
               underlineColorAndroid="#f000"
               placeholder="Enter Phone"
@@ -234,27 +201,11 @@ const RegisterScreen = (props) => {
           <View style={styles.SectionStyle}>
             <TextInput
               style={styles.inputStyle}
-              onChangeText={(UserAddressCity) =>
-                setUserAddressCity(UserAddressCity)
+              onChangeText={(UserComments) =>
+                setUserComments(UserComments)
               }
               underlineColorAndroid="#f000"
-              placeholder="Enter City"
-              placeholderTextColor="#8b9cb5"
-              autoCapitalize="sentences"
-              ref={addressInputRef}
-              returnKeyType="next"
-              onSubmitEditing={Keyboard.dismiss}
-              blurOnSubmit={false}
-            />
-          </View>
-          <View style={styles.SectionStyle}>
-            <TextInput
-              style={styles.inputStyle}
-              onChangeText={(UserAddressCountry) =>
-                setUserAddressCountry(UserAddressCountry)
-              }
-              underlineColorAndroid="#f000"
-              placeholder="Enter Country"
+              placeholder="Enter Comments"
               placeholderTextColor="#8b9cb5"
               autoCapitalize="sentences"
               ref={addressInputRef}
@@ -279,7 +230,7 @@ const RegisterScreen = (props) => {
     </View>
   );
 };
-export default RegisterScreen;
+export default ContactScreen;
 
 const styles = StyleSheet.create({
   SectionStyle: {

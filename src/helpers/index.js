@@ -1,10 +1,19 @@
-import { AsyncStorage } from 'react-native';
-
-export function logout(){
-    console.log("logout")
-}
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 module.exports = {
+    logout: () =>{
+        console.log("logout");
+    },
+    printAsyncStorage: async () => {    //TODO:- Unused function yet, but required    
+        AsyncStorage.getAllKeys((err, keys) => { 
+            AsyncStorage.multiGet(keys, (error, stores) => {  
+              let asyncStorage = {}
+              stores.map((result, i, store) => {
+                asyncStorage[store[i][0]] = store[i][1]
+              });
+            });
+        });
+    },
     retrieve: async (value) => {
         try {
             let data = await AsyncStorage.getItem(value);

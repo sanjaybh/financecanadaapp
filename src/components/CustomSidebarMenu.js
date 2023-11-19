@@ -13,33 +13,29 @@ import {
 
 //import AsyncStorage from '@react-native-community/async-storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logout, retrieve, store } from '../helpers';
+import { logout, retrieve, store, printAsyncStorage } from '../helpers';
 
 const CustomSidebarMenu = (props) => {  
   const [name, setName] = useState();
   const [email, setEmail] = useState();
+  const [singleWord, setSingleWord] = useState();
   
-  const printAsyncStorage = () => { 
+  const handleSingleWord = (name) =>{
+    let _name = (name ? name : "BLANK") 
+    setSingleWord(_name.charAt(0));
+  }
+  useEffect(() => {
     AsyncStorage.getAllKeys((err, keys) => { 
-      AsyncStorage.multiGet(keys, (error, stores) => { 
+      AsyncStorage.multiGet(keys, (error, stores) => {  
         let asyncStorage = {}
         stores.map((result, i, store) => {
           asyncStorage[store[i][0]] = store[i][1]
         });
-        //console.log("STORE - "+JSON.stringify(asyncStorage))
-        setName(asyncStorage.name)
-        setEmail(asyncStorage.email)
-        //console.log("EMAIL - "+asyncStorage.email);
-        //console.log("NAME - "+asyncStorage.name)
+        setName(asyncStorage.name);
+        setEmail(asyncStorage.email);
+        handleSingleWord(asyncStorage.name)
       });
     });
-  };
-  const handleSingleWord = (name) =>{
-    let _name = (name ? name : "BLANK") 
-    return _name.charAt(0);
-  }
-  useEffect(() => {
-    printAsyncStorage();
   }, []);
 
   return (
@@ -47,7 +43,7 @@ const CustomSidebarMenu = (props) => {
       <View style={stylesSidebar.profileHeader}>
         <View style={stylesSidebar.profileHeaderPicCircle}>
           <Text style={{fontSize: 25, color: '#307ecc'}}>
-            {handleSingleWord(name)}
+            {singleWord}
           </Text>
         </View>
         <Text style={stylesSidebar.profileHeaderText}>

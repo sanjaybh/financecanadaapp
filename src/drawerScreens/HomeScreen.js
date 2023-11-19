@@ -4,6 +4,7 @@
 // Import React and Component
 import React from 'react';
 import {View, Text, SafeAreaView} from 'react-native';
+import CustFooter from './CustFooter';
 
 const HomeScreen = () => {
   return (
@@ -26,22 +27,7 @@ const HomeScreen = () => {
             This is the Home Screen
           </Text>
         </View>
-        <Text
-          style={{
-            fontSize: 18,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          Splash, Login and Register Example{'\n'}React Native
-        </Text>
-        <Text
-          style={{
-            fontSize: 16,
-            textAlign: 'center',
-            color: 'grey',
-          }}>
-          www.mrbhans.com
-        </Text>
+        <CustFooter type="Home Screen" />
       </View>
     </SafeAreaView>
   );
